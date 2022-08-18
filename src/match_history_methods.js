@@ -79,10 +79,34 @@ const get_avg_player_specific_stats = (match_history, specific_stat) => {
     return specific_stat_count / (match_history.length * 2);
 }
 
+
+const get_most_played_hero = (match_history, player_name) => {
+    let player_games = get_player_by_name(match_history, player_name);
+    let heros = {}
+    for (let hero of hero_names) {
+        heros[hero] = 0;
+    }
+    for (let game of player_games) {
+        heros[game["hero"]]++;
+    }
+
+    // Sort by number of games.
+    let sorted_heros = {}
+    Object.keys(heros).sort((a, b) => {
+        return heros[b] - heros[a];
+    }).forEach((key) => {
+        sorted_heros[key] = heros[key];
+    });
+
+    return Object.keys(sorted_heros)[0];
+}
+
+
 export default {
     get_game_count,
     get_games_by,
     get_player_by_name,
     get_avg_player_specific_stats,
     get_most_played_hero_and_winrate,
+    get_most_played_hero,
 }

@@ -1,6 +1,6 @@
 <template>
    <div>
-    <img src="" :width="width || 32" :height="height || 32" ref="hero-img">
+    <img src="" :width="width || 32" :height="height || 32" ref="hero-img" @click.self="onClick()">
    </div>
 </template>
 
@@ -34,7 +34,9 @@ export default {
     },
 
     methods: {
-      
+        onClick(){
+            this.$router.push({ name: 'Hero', params: { name: this.hero_name } })
+        }
     }
      
 }

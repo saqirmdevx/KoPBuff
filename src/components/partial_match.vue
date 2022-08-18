@@ -1,6 +1,6 @@
 <template>
        <!-- `@/assets/creatures/heroes/${heros_reversed[hero]}/hero_face.png`)} -->
-   <div ref="partialMatch" class="partial-match mb-2" @click="onClick(player.game_id)">
+   <div ref="partialMatch" class="partial-match mb-2" @click.self="onClick(player.game_id)">
         <HeroIcon :hero_name="player.hero" width="32" height="32"></HeroIcon>
         <span class="kills">{{player.kills}}</span>
         <span>/</span>

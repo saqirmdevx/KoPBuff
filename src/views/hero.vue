@@ -19,12 +19,12 @@ export default {
 
     data () {
         return {
-            hero_name: this.$route.params.hero_name
+            hero_name: this.$route.params.name
         }
     },
 
     mounted () {
-        console.log(this.hero_name)
+        console.log(this.name)
     },
 
     methods: {
