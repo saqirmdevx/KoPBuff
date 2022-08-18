@@ -28,7 +28,9 @@
                 <td>{{player.tower_damage}}</td>
                 <td>{{player.total_healing}}</td>
                 <td>{{player.total_net}}</td>
-                <td>{{player.items}}</td>
+                <td>
+                    <ItemIcon :item_name="item_name" width="32" height="32" v-for="(item_name, index) in player.items" :key="index"></ItemIcon>
+                </td>
                 <td>{{player.talents}}</td>
             </tr>
         </tbody>
@@ -62,7 +64,9 @@
                 <td>{{player.tower_damage}}</td>
                 <td>{{player.total_healing}}</td>
                 <td>{{player.total_net}}</td>
-                <td>{{player.items}}</td>
+                <td>
+                    <ItemIcon :item_name="item_name" width="32" height="32" v-for="(item_name, index) in player.items" :key="index"></ItemIcon>
+                </td>
                 <td>{{player.talents}}</td>
             </tr>
         </tbody>
@@ -74,11 +78,13 @@
 import match_history_methods from "@/match_history_methods";
 import match_history from "./../assets/pretty_match_history.json";
 import HeroIcon from "@/components/hero_icon.vue";
+import ItemIcon from "@/components/item_icon.vue";
 
 export default {
     name: "KopMatchHistory",
     components: {
-        HeroIcon
+        HeroIcon,
+        ItemIcon
     },
 
     data() {
