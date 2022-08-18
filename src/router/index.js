@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from 'vue-router'
 import index from '../views/index.vue'
 import match from '../views/match.vue'
 import player from '../views/player.vue'
-
+import hero from '../views/hero.vue'
 const routes = [
     {
         path: '/',
@@ -18,6 +18,11 @@ const routes = [
         path: '/player/:name',
         name: 'Player',
         component: player
+    },
+    {
+        path: '/hero/:hero_name',
+        name: 'Hero',
+        component: hero
     }
 ]
 
