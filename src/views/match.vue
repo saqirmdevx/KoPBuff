@@ -16,8 +16,21 @@
             <th scope="col">Talents</th>
         </tr>
     </thead>
+
         <tbody ref="blueTeamTbody">
-        
+            <tr v-for="(player, player_name) in match.blue_team" :key="player_name">
+                <td><HeroIcon :hero_name="player.hero" width="48" height="48"></HeroIcon></td>
+                <td>{{player_name}}</td>
+                <td>{{player.kills}}</td>
+                <td>{{player.deaths}}</td>
+                <td>{{player.assists}}</td>
+                <td>{{player.total_damage}}</td>
+                <td>{{player.tower_damage}}</td>
+                <td>{{player.total_healing}}</td>
+                <td>{{player.total_net}}</td>
+                <td>{{player.items}}</td>
+                <td>{{player.talents}}</td>
+            </tr>
         </tbody>
     </table>
 
@@ -39,103 +52,40 @@
         </tr>
     </thead>
         <tbody ref="redTeamTbody">
-        
+            <tr v-for="(player, player_name) in match.red_team" :key="player_name">
+                <td><HeroIcon :hero_name="player.hero" width="48" height="48"></HeroIcon></td>
+                <td>{{player_name}}</td>
+                <td>{{player.kills}}</td>
+                <td>{{player.deaths}}</td>
+                <td>{{player.assists}}</td>
+                <td>{{player.total_damage}}</td>
+                <td>{{player.tower_damage}}</td>
+                <td>{{player.total_healing}}</td>
+                <td>{{player.total_net}}</td>
+                <td>{{player.items}}</td>
+                <td>{{player.talents}}</td>
+            </tr>
         </tbody>
     </table>
 </template>
 
 <script>
 
-const heros_reversed = {
-  "Kumihu": 0,
-  "Sparrow": 1,
-  "Belle": 2,
-  "Iceat": 3,
-  "Thomas": 4,
-  "Veil": 5,
-  "Flin": 6,
-  "Kira": 7,
-  "Hazel": 8,
-  "Arel": 9,
-  "Alvar": 10,
-}
-
-
-import item_names_to_png_names from "./../assets/item_names_to_png_names.json";
 import match_history_methods from "@/match_history_methods";
 import match_history from "./../assets/pretty_match_history.json";
-
+import HeroIcon from "@/components/hero_icon.vue";
 
 export default {
     name: "KopMatchHistory",
-
-    props:{
-        gameId: String,
-        gamemode: String,
-        winningTeam: String,
-        gameDuration: String,
-        gameHerosBlue: Array,
-        gameHerosRed: Array,
+    components: {
+        HeroIcon
     },
 
-    mounted () {
-       this.match = match_history_methods.get_games_by(match_history, (game) => {
-        return game.id == this.$route.params.id
-       })[0]
-       
-        for (const player_name in this.match.blue_team) {
-            this.addPlayer(player_name, "blueTeam", this.match.blue_team[player_name])
-        }
-        for (const player_name in this.match.red_team) {
-            this.addPlayer(player_name, "redTeam", this.match.red_team[player_name])
+    data() {
+        return {
+            match: match_history_methods.get_games_by(match_history, (game) => game.game_id == this.gameId)[0],
         }
     },
-
-    methods: {
-        addPlayer(player_name, team, player) {
-            const tableBody = this.$refs[team + "Tbody"];
-
-            const row = tableBody.insertRow();
-            const heroCell = row.insertCell();
-            const playerCell = row.insertCell();
-            const killsCell = row.insertCell();
-            const deathsCell = row.insertCell();
-            const assistsCell = row.insertCell();
-            const damageCell = row.insertCell();
-            const towerDamageCell = row.insertCell();
-            const healingCell = row.insertCell();
-            const networthCell = row.insertCell();
-            const itemsCell = row.insertCell();
-            const talentsCell = row.insertCell();
-
-            const hero_image = `<img src="${require(`@/assets/creatures/heroes/${heros_reversed[player.hero]}/hero_face.png`)}" alt="${player.hero}" width="32" height="32">`
-
-            heroCell.innerHTML = hero_image;
-
-
-            playerCell.innerText = player_name;
-            killsCell.innerText = player.kills;
-            deathsCell.innerText = player.deaths;
-            assistsCell.innerText = player.assists;
-            damageCell.innerText = player.total_damage;
-            towerDamageCell.innerText = player.tower_damage;
-            healingCell.innerText = player.total_healing;
-            networthCell.innerText = player.total_net;
-
-            const game_item_images = []
-            player.items.forEach(item => {
-                if (item != "empty"){
-                    item = item_names_to_png_names[item];
-                    game_item_images.push(`<img class='mr-2' src="${require(`@/assets/itemUsed/${item}`)}" alt="${item}" width="32" height="32">`)
-                }else{
-                    game_item_images.push(`<img class='mr-2' src="${require(`@/assets/itemUsed/empty.png`)}" alt="empty" width="32" height="32">`)
-                }
-            });
-
-            itemsCell.innerHTML = Object.values(game_item_images).join("")
-            talentsCell.innerHTML = player.talents;
-        },
-    }
 }
 
 
