@@ -1,26 +1,29 @@
 <template>
+  <div class="background-image"></div>
   <div class="container">
     <TopStatsBar></TopStatsBar>
     <navbar>
-       <template #Home>
-        <router-link to="/">Home</router-link>
+
+    <template #Home>
+        <router-link class="nav-link" to="/">Home</router-link>
+      </template>
+     
+     <template #Matches>
+          <router-link class="nav-link" to="/matches">Matches</router-link>
       </template>
 
-      <template #Meta>
-        <router-link to="/meta">Meta</router-link>
-      </template>
-      
-      <template #Winning>
-        <router-link to="/winning">Winning</router-link>
+      <template #Heros>
+          <router-link class="nav-link" to="/heros">Heros</router-link>
       </template>
 
-      <template #Matches>
-        <router-link to="/matches">Matches</router-link>
+      <template #Items>
+          <router-link class="nav-link" to="/items">Items</router-link>
       </template>
 
       <template #Leaderboard>
-        <router-link to="/leaderboard">Leaderboard</router-link>
+        <router-link class="nav-link" to="/leaderboard">Leaderboard</router-link>
       </template>
+
     </navbar>
     <router-view></router-view>
   </div>
@@ -35,6 +38,8 @@ import TopStatsBar from './components/top_stats_bar.vue';
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'jquery/src/jquery.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
+
+
 
 export default {
   name: 'App',
@@ -54,9 +59,25 @@ export default {
     font-family: "Glasstown NBP";
 }
 
-html, body{
-  background-color: rgb(40,40,40) !important
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-image: url('./assets/background.png');
+  background-size: cover;
+  filter: hue-rotate(40deg) brightness(20%) 
+  /* Add backlight effect */
+  
+
 }
+
+.router-link-active {
+  color: white !important;
+}
+
 
 a {
   color: #D9D9D9 !important;
@@ -64,12 +85,32 @@ a {
 }
 
 a:hover {
-  color: #D9D9D9 !important;
+  color: white !important;
   filter: brightness(0.9);
 }
 
-p {
+p, span {
   color: #D9D9D9 !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(1, 15, 20); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(2, 24, 33)
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(3, 31, 43)
 }
 
 #app {

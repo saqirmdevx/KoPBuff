@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-dark table-hover">
+        <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Rank</th>
@@ -14,13 +14,17 @@
             </thead>
 
             <tbody>
-                <tr v-for="(player, index) in leaderboard" :key="player.id">
+               <tr v-for="(player, index) in leaderboard" :key="player.id">
                     <td>{{index + 1}}</td>
-                    <td><HeroIcon :hero_name="mostPlayedHeroes(player.name)" width="48" height="48"></HeroIcon></td>
-                    <td>{{player.name}}</td>
-                    <td>{{player.games_total - player.games_lost}}</td>
-                    <td>{{player.games_lost}}</td>
-                    <td>{{player.mmr_2v2}}</td>
+                    <td><HeroIcon :hero_name="utils.getMostPlayedHero(player).heroId" width="48" height="48"></HeroIcon></td>
+                    <!-- If index is 1 then gold-text -->
+                    <!-- If index is 2 then silver-text -->
+                    <!-- If index is 3 then bronze-text -->
+                    <!-- If index is 4 or more then nothing -->
+                    <td :class="index+1 == 1 ? 'gold-text' : index+1 == 2 ? 'silver-text' : index+1 == 3 ? 'bronze-text' : ''">{{player.name}}</td>
+                    <td>{{player.AccountStats.seasonGamesTotal - player.AccountStats.seasonGamesLost}}</td>
+                    <td>{{player.AccountStats.seasonGamesLost}}</td>
+                    <td>{{player.AccountStats.mmr}}</td>
                 </tr>
             </tbody>
         </table>
@@ -29,59 +33,81 @@
 
 <script>
 
-
-import axios from 'axios';
-import { decode } from "msgpackr/unpack";
-import { Buffer } from "buffer";
+/* eslint-disable vue/no-unused-components */
 
 import HeroIcon from '@/components/hero_icon.vue';
-import match_history_methods from "@/match_history_methods";
-import match_history from "./../assets/pretty_match_history.json";
+import utils from "@/utils";
+import api_communication from '@/api_communication';
 
 export default {
     name: "KopLeaderboard",
     components: {
         HeroIcon
     },
-    
 
     data() {
         return {
+            colors: {
+                gold: 1,
+                silver: 2,
+                bronze: 3,
+            },
             leaderboard: [],
-            match_history_methods,
-            match_history,
-            // mostPlayedHeroes
+            utils,
+            gamemode_types: {
+                "1v1": 1,
+                "2v2": 2,
+            }
         }
     },
 
+    async mounted () {
+        this.leaderboard = await api_communication.getLeaderboard()
+        console.log(this.colors)
         
-
-    methods: {
-       getLeaderboard(type) {
-            const url = `https://us.leagueofpixels.eu/api/leaderboard/?type=${type}`
-            axios.get(url, {
-                responseType: 'arraybuffer'
-            }).then((response) => {
-                const data = decode(Buffer.from(response.data));
-                this.leaderboard = data;
-                console.log(data);
-            })
-       },
-
-       mostPlayedHeroes(playerName) {
-            const most_played = match_history_methods.get_most_played_hero(this.match_history, playerName);
-            console.log(playerName, most_played);
-            return most_played
-       }
-    },
-
-    mounted() {
-       this.getLeaderboard(2)
     }
     
 }
+
+
+
 </script>
 
 <style scoped>
+
+th {
+    background-color: rgba(2, 24, 33, 0.7);
+    border-bottom: 2px solid rgba(22, 44, 53, 1);
+}
+
+
+tr {
+    text-align: center;
+
+    color: white !important
+}
+tr:hover {
+    background-color: rgba(2, 24, 33, 0.7);
+    filter: brightness(1);
+}
+
+td {
+    background-color: rgba(2, 24, 33, 0.7);
+    filter: brightness(0.8);
+    border-bottom: 1px solid rgba(22, 44, 53, 1);
+}
+
+
+.gold-text:before, .gold-text:after {
+    content: " 👑 "
+}
+.silver-text:before, .silver-text:after {
+    content: " 🥈 "
+}
+.bronze-text:before, .bronze-text:after {
+    content: " 🥉 "
+}
+
+
 
 </style>

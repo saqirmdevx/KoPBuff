@@ -75,7 +75,7 @@
 
 <script>
 
-import match_history_methods from "@/match_history_methods";
+import utils from "@/utils";
 import match_history from "./../assets/pretty_match_history.json";
 import HeroIcon from "@/components/hero_icon.vue";
 import ItemIcon from "@/components/item_icon.vue";
@@ -89,8 +89,12 @@ export default {
 
     data() {
         return {
-            match: match_history_methods.get_games_by(match_history, (game) => game.game_id == this.gameId)[0],
+            match: utils.get_games_by(match_history, (game) => game.game_id == this.gameId)[0],
         }
+    },
+
+    mounted() {
+        console.log(1)
     },
 }
 

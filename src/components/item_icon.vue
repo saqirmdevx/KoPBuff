@@ -1,5 +1,5 @@
 <template>
-    <img src="" :width="width || 32" :height="height || 32" ref="hero-img">
+    <img src=""  :width="width || 32" :height="height || 32" ref="hero-img">
 </template>
 
 <script>
@@ -11,8 +11,8 @@ export default {
 
     props:{
         item_name: String,
-        width: Number,
-        height: Number,
+        width: String,
+        height: String,
     },
 
     mounted () {

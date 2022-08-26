@@ -10,7 +10,7 @@
 
 
 <script>
-import match_history_methods from '@/match_history_methods'
+import utils from "@/utils";
 import match_history from "./../assets/pretty_match_history.json";
 import HeroIcon from './hero_icon.vue';
 
@@ -28,8 +28,8 @@ export default {
     data () {
         return {
             match_history,
-            match_history_methods,
-            most_played_heros: match_history_methods.get_most_played_hero_and_winrate(match_history, this.player_name)
+            utils,
+            most_played_heros: utils.get_most_played_hero_and_winrate(match_history, this.player_name)
         }
     },     
 }

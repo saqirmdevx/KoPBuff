@@ -45,8 +45,8 @@ export default {
 
 <style scoped>
 .statsbar {
-  background-color: #2B3F34 !important;
-  border: 1px solid #57A773 !important;
+  background-color: #021821  !important;
+  border: 1px solid #264653 !important;
   width: 100%;
   height: 70px;
 }
@@ -60,27 +60,27 @@ p {
     margin: 0 auto;
     width: 10%;
     height: 20px;
-    background-color: #2B3F34 !important;
+    background-color: #021821 !important;
     
 }
 
 .top {
     top: 41px;
     left: 45%;
-    border-color: #57A773;
+    border-color: #264653;
     border-width: 1px;
     border-style: solid;
     border-bottom: none;
-    border-top: 1px solid #57A773;
+    border-top: 1px solid #264653;
 }
 
 .bottom {
     top: 128px;
-    border-color: #57A773;
+    border-color: #264653;
     border-width: 1px;
     border-style: solid;
     border-top: none;
-    border-bottom: 1px solid #57A773;
+    border-bottom: 1px solid #264653;
     left: 45%;
 }
 

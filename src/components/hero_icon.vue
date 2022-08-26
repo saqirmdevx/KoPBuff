@@ -1,46 +1,46 @@
+
 <template>
-   <div>
-    <img src="" :width="width || 32" :height="height || 32" ref="hero-img" @click.self="onClick()">
-   </div>
+    <img src=""  :width="width || 32" :height="height || 32" ref="heroImg" @click.self="onClick()">
 </template>
 
 <script>
 
-const heros_reversed = {
-  "Kumihu": 0,
-  "Sparrow": 1,
-  "Belle": 2,
-  "Iceat": 3,
-  "Thomas": 4,
-  "Veil": 5,
-  "Flin": 6,
-  "Kira": 7,
-  "Hazel": 8,
-  "Arel": 9,
-  "Alvar": 10,
-}
+import api_communication from "@/api_communication"
+import utils from "@/utils"
 
 export default {
     name: "KopHeroIcon",
 
     props:{
-        hero_name: String,
-        width: Number,
-        height: Number,
+        hero_name: [String, Number],
+        width: String,
+        height: String,
+    },
+
+    data () {
+        return {
+            api_communication,
+            hero_nameLocal: this.hero_name,
+        }
     },
 
     mounted () {
-        this.$refs["hero-img"].src = require(`@/assets/creatures/heroes/${heros_reversed[this.hero_name]}/hero_face.png`)
+        if (isNaN(this.hero_name)) { // Converts the hero name to the hero id
+            this.hero_nameLocal = utils.getHeroIdByName(this.hero_nameLocal)
+        }
+        this.$refs.heroImg.src = this.api_communication.getHeroAssetURL(this.hero_nameLocal)
     },
 
     methods: {
         onClick(){
             this.$router.push({ name: 'Hero', params: { name: this.hero_name } })
         }
-    }
+    },
+
+    // Stop receiving events from parent
+    
      
 }
-
 
 </script>
 
