@@ -1,54 +1,68 @@
 <template>
     <div class="row">
-        <div class="col-3">
-            <h3 class="text-white">Most Played Heros</h3>
-        </div>
-        <div class="col-lg">
-            <h1 ref="playerName" class="text-white">{{this.$route.params.name}}</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3">
-            <!-- <player_most_played :player_name="this.$route.params.name"></player_most_played> -->
-        </div>
-        <div class="col-lg">
-            <div v-for="player_game in player_games" :key="player_game.id">
-                <partial_match :player="player_game"></partial_match>
+        <div class="col-12">
+            <div class="player-card p-4">
+                <div class="row">
+                    
+                    <div class="col-1">
+                        <div class="player-card-image">
+                            <img :src="player.picture" alt="">
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <h1 class="player-card-text">{{player.name}}</h1>
+                    </div>
+                </div>
+                
+                
             </div>
         </div>
-   </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-4">
+            <div class="most-played-heroes-container">
+                <div class="most-played-heroes-head-bg">
+                    <h3 class="text-white">Most Played Heros</h3>
+                </div>
+                <mostPlayedHero v-for="(heroData, index) of player.AccountHeroStats" :key="heroData.heroId" :heroData="heroData" :index="index"></mostPlayedHero>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="game-card"></div>
+        </div>
+    </div>
+    
 </template>
 
 <script>
 
 
-import utils from "@/utils";
-// import match_history from "./../assets/pretty_match_history.json";
-import partial_match from '@/components/partial_match.vue';
-// import player_most_played from '@/components/player_most_played.vue';
+
+// import partial_match from '@/components/partial_match.vue';
+import api_communication from '@/api_communication';
+import mostPlayedHero from '@/components/player_most_played.vue';
 
 export default {
     name: "KopMatchHistory",
     components: {
-        partial_match,
-        // player_most_played,
+        // partial_match,
+        mostPlayedHero
     },
     data () {
         return {
-            player_games: [],
-            utils
+            api_communication,
+            player: {},
         }
     },
 
     mounted () {
-        this.player_games = [];
-        // utils.getPlayerByName(this.$route.params.name);
-        utils.matchHistory.forEach(match => {
-            const res = utils.getPlayerByName(this.$route.params.name, match)
-            if (res) {
-                // console.log(res);
-                this.player_games.push(res);
-            }
+        api_communication.getPlayer(this.$route.params.name).then((playerData) => {
+            this.player = playerData
+            console.log(this.player)
+        }).catch((error) => { // handle this error and display it on the frontend
+            console.log(error);
         });
         
     },
@@ -63,5 +77,78 @@ export default {
 </script>
 
 <style scoped>
+
+/* -----------top player card------------ */
+
+.player-card {
+    background-color: #01212E;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 15px;
+}
+
+.player-card-image {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+}
+
+.player-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-card-text {
+    color: white;
+}
+
+
+/* ----------most played------------- */
+
+.most-played-heroes-container {
+    background-color: #021821;
+    width: 100%;
+    height: 600px;
+    border: 1px solid #0C2630;
+}
+
+.most-played-heroes-head-bg {
+    background-color: #011D28;
+    width: 100%;
+    height: 50px;
+}
+
+
+.most-played-hero-card {
+
+}
+
+.most-played-hero-image {
+
+}
+
+.most-played-hero-top-text {
+
+}
+
+.most-played-hero-bottom-text {
+    
+}
+
+h3 {
+    text-align: center;
+    line-height: 50px;
+}
+
+/* ----------games------------- */
+
+.game-card {
+    width: 100%;
+    height: 100px;
+    background: #021821;
+    border: 1px solid #0C2630;
+}
 
 </style>

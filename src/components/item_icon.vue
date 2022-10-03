@@ -1,10 +1,10 @@
 <template>
-    <img src=""  :width="width || 32" :height="height || 32" ref="hero-img">
+    <img src=""  :width="width || 32" :height="height || 32" ref="itemImg">
 </template>
 
 <script>
 
-import item_names_to_png_names from "./../assets/item_names_to_png_names.json";
+import api_communication from '@/api_communication'
 
 export default {
     name: "KopItemIcon",
@@ -15,13 +15,17 @@ export default {
         height: String,
     },
 
-    mounted () {
-        if (this.item_name == "empty"){
-            this.$refs["hero-img"].src = require(`@/assets/itemUsed/empty.png`)
-            return
+    data () {
+        return {
+            api_communication,
         }
+    },
 
-        this.$refs["hero-img"].src = require(`@/assets/itemUsed/${item_names_to_png_names[this.item_name]}`)
+    mounted () {
+        if (this.item_name && this.item_name !== "undefined"){
+            console.log(this.item_name, typeof this.item_name)
+            this.$refs.itemImg.src = this.api_communication.getItemAssetURL(this.item_name)
+        }
     },
 
     methods: {

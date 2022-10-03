@@ -2,12 +2,12 @@ import axios from "axios"
 import { decode } from "msgpackr/unpack";
 import { Buffer } from "buffer";
 
-const debug = 1;
+const debug = 0;
 
 
 // API documentation:  https://github.com/saqirmdevx/LoP2_Server/blob/develop/gameServer/src/api/public/documentation.md
 
-const domain = debug && "http://localhost:3000" || "https://leagueofpixels.eu"
+const domain = debug && "http://localhost:3000" || "https://eu.leagueofpixels.eu"
 
 const API_URL = `${domain}/api/public`
 
@@ -29,15 +29,15 @@ const ASSETS_ENDPOINTS = {
 
 
 const getHeroAssetURL = (heroID) => { // Allow for hero_name to be passed in and converted to heroID
-    return `${ASSETS_URL}/${ASSETS_ENDPOINTS.heroes}/${heroID}/hero_face.png`
+    return `${ASSETS_URL.replace("eu.", "")}/${ASSETS_ENDPOINTS.heroes}/${heroID}/hero_face.png`
 }
 
 const getItemAssetURL = (itemName) => {
-    return `${ASSETS_URL}/${ASSETS_ENDPOINTS.items}/${itemName}.png`
+    return `${ASSETS_URL.replace("eu.", "")}/${ASSETS_ENDPOINTS.items}/${itemName}.png`
 }
 
 
-const response_type_replay_buffer = !debug && {} || { responseType: "arraybuffer" }
+const response_type_replay_buffer = { responseType: "arraybuffer" }
 
 const getHeroesNames = async () => {
     const response = await axios.get(`${API_URL}/${API_ENDPOINTS.heroes}`, response_type_replay_buffer)
@@ -64,10 +64,9 @@ const getMatch = async (matchID) => {
     return decoded
 }
 
-const getMatches = async (numberOfMatches, playerID=null) => {
+const getMatches = async (numberOfMatches, additions=[], playerID=null) => {
     const getQueryParams = (playerID && `player=${playerID}` || "") + `&take=${numberOfMatches}`
-    console.log(`${API_URL}/${API_ENDPOINTS.matches}?${getQueryParams}`)
-    const response = await axios.get(`${API_URL}/${API_ENDPOINTS.matches}?${getQueryParams}`, response_type_replay_buffer)
+    const response = await axios.get(`${API_URL}/${API_ENDPOINTS.matches}?${getQueryParams}&additions=${additions.join(",")}`, response_type_replay_buffer)
     const decoded = decode(Buffer.from(response.data))
     return decoded
 }

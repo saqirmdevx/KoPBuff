@@ -4,8 +4,12 @@
             <p class="text-center text-header floating" >KOPBuff</p>
             <img src="../assets/logo.png" alt="KOPBuff Logo" class="logo " width="140" height="200">
         </div>
-        <div class="input-group">
+
+
+        
+        <div class="input-group form-floating">
             <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Search by username or match id" @keyup.enter="onSearch" ref="inputText">
+            <label style="color: white; z-index: 999" for="floatingTextarea">Search by username or match id</label>
             <button class="btn btn-primary br-2" type="button" id="button-addon2" @click.self="onSearch">Search</button>
         </div>
     </div>
@@ -15,14 +19,13 @@
 import navbar from '../components/navbar.vue';
 // import match_history_methods from '@/match_history_methods';
 import api_communication from '@/api_communication';
-
 export default {
     name: "KopNavbar",
     components: {
     },
 
     props:{
-        navbar: navbar
+        navbar
     },
 
     data () {
@@ -42,7 +45,6 @@ export default {
             if (is_numbers) {
                 this.$router.push({ name: 'Match', params: { id: this.$refs.inputText.value } })
             } else {
-                console.log(123);
                 this.$router.push({ name: 'Player', params: { name: this.$refs.inputText.value } })
             }
         }
@@ -81,9 +83,10 @@ img {
 
 
 input {
-    background-color: rgb(41 48 58);
+    background-color: hsl(197, 89%, 7%);
     border: none;
     color: white;
+    border: 1px solid hsla(197, 37%, 24%, 0.5) !important
 }
 
 input::placeholder {
@@ -92,11 +95,12 @@ input::placeholder {
 
 
 input:focus {
-    background-color: rgb(41 48 58);
+    background-color: hsl(197, 89%, 7%);
     border: none;
     outline: none;
     box-shadow: none;
-    color: rgb(217, 217, 217)
+    color: rgb(217, 217, 217);
+    border: 1px solid hsl(197, 37%, 24%) !important
 }
 
 button {

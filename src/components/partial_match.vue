@@ -72,7 +72,6 @@ export default {
 
     methods: {
         onClick(id) {
-            console.log(id);
             this.$router.push({ name: 'Match', params: { id } })
         },
 

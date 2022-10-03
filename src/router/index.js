@@ -9,6 +9,7 @@ import leaderboard from '../views/leaderboard.vue'
 import heros from '../views/heros.vue'
 import items from '../views/items.vue'
 
+import PageNotFound from '../views/404Page.vue'
 
 const routes = [
     {
@@ -35,8 +36,6 @@ const routes = [
         component: items
     },
 
-
-
     {
         path: '/leaderboard',
         name: 'Leaderboard',
@@ -48,17 +47,24 @@ const routes = [
         name: 'Match',
         component: match
     },
+
     {
         path: '/player/:name',
         name: 'Player',
         component: player
     },
+
     {
         path: '/hero/:name',
         name: 'Hero',
         component: hero
     },
 
+
+    {
+        path: "/:pathMatch(.*)*",
+        component: PageNotFound
+    }
 
 ]
 

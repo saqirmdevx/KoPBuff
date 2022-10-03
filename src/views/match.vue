@@ -92,10 +92,6 @@ export default {
             match: utils.get_games_by(match_history, (game) => game.game_id == this.gameId)[0],
         }
     },
-
-    mounted() {
-        console.log(1)
-    },
 }
 
 

@@ -14,13 +14,9 @@
             </thead>
 
             <tbody>
-               <tr v-for="(player, index) in leaderboard" :key="player.id">
+               <tr v-for="(player, index) in leaderboard" :key="player.id" @click="onClick(player)">
                     <td>{{index + 1}}</td>
                     <td><HeroIcon :hero_name="utils.getMostPlayedHero(player).heroId" width="48" height="48"></HeroIcon></td>
-                    <!-- If index is 1 then gold-text -->
-                    <!-- If index is 2 then silver-text -->
-                    <!-- If index is 3 then bronze-text -->
-                    <!-- If index is 4 or more then nothing -->
                     <td :class="index+1 == 1 ? 'gold-text' : index+1 == 2 ? 'silver-text' : index+1 == 3 ? 'bronze-text' : ''">{{player.name}}</td>
                     <td>{{player.AccountStats.seasonGamesTotal - player.AccountStats.seasonGamesLost}}</td>
                     <td>{{player.AccountStats.seasonGamesLost}}</td>
@@ -47,24 +43,24 @@ export default {
 
     data() {
         return {
-            colors: {
-                gold: 1,
-                silver: 2,
-                bronze: 3,
-            },
             leaderboard: [],
             utils,
-            gamemode_types: {
-                "1v1": 1,
-                "2v2": 2,
-            }
         }
     },
 
     async mounted () {
         this.leaderboard = await api_communication.getLeaderboard()
-        console.log(this.colors)
-        
+    },
+
+    methods: {
+        onClick(player) {
+            this.$router.push({
+                name: 'Player',
+                params: {
+                    name: player.name
+                }
+            })
+        }
     }
     
 }
@@ -80,12 +76,15 @@ th {
     border-bottom: 2px solid rgba(22, 44, 53, 1);
 }
 
-
 tr {
     text-align: center;
-
     color: white !important
 }
+
+tbody tr {
+    cursor: pointer;
+}
+
 tr:hover {
     background-color: rgba(2, 24, 33, 0.7);
     filter: brightness(1);

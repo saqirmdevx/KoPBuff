@@ -23,9 +23,6 @@ export default {
         }
     },
 
-    mounted () {
-        console.log(this.name)
-    },
 
     methods: {
       

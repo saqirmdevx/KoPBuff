@@ -28,12 +28,16 @@
     <router-view></router-view>
   </div>
 
+  <!-- <footer2></footer2> -->
 
 </template>
 
 
+
 <script>
 import navbar from './components/navbar.vue';
+// import footer2 from './components/footer.vue';
+
 import TopStatsBar from './components/top_stats_bar.vue';
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'jquery/src/jquery.js'
@@ -45,7 +49,8 @@ export default {
   name: 'App',
   components: {
     navbar,
-    TopStatsBar
+    TopStatsBar,
+    // footer2
   },
 
 }

@@ -7,15 +7,15 @@
                     <th scope="col">Game Mode</th>
                     <th scope="col">Result</th>
                     <th scope="col">Duration</th>
-                    <th scope="col">Blue Team</th>
-                    <th scope="col">Red Team</th>
+                    <th class="blue-team-text" scope="col">Blue Team</th>
+                    <th class="red-team-text" scope="col">Red Team</th>
                 </tr>
             </thead>
 
             <tbody>
                <tr v-for="(match) in matches" :key="match.id">
                     <td>{{match.id}}</td>
-                    <td>2v2</td>
+                    <td>{{calcGamemode(match)}}</td>
                     <td :class="utils.team.blue == match.winner ? 'blue-team-text' : 'red-team-text'">{{utils.team.blue == match.winner ? 'Blue Team' : 'Red Team'}}</td>
                     <td>{{secondsToMinutes(match.gameTime)}}</td>
                      <td>
@@ -48,20 +48,17 @@ export default {
         return {
             matches: [],
             utils,
-            gamemode_types: {
-                "1v1": 1,
-                "2v2": 2,
-            }
         }
     },
 
     async mounted () {
-        this.utils.getMatches(20).then(matches => {
-            // console.log(matches[0])
-            this.matches = this.sortMatchesByWinner(matches)
-        });
-
-
+        this.matches = await this.utils.getMatches(20, [
+            this.utils.matchesAdditions.winner,
+            this.utils.matchesAdditions.heroId, 
+            this.utils.matchesAdditions.gameTime,
+            this.utils.matchesAdditions.team,
+        ])
+        console.log(this.matches)
     },
 
     methods: {
@@ -86,8 +83,21 @@ export default {
         
         
         secondsToMinutes(seconds){
-            console.log(1, seconds);
-            return `${Math.floor(seconds / 60)}:${seconds % 60}`;
+            return Math.floor(seconds / 60) + ":" + (seconds % 60).toString().padStart(2, "0");            
+        },
+
+        calcGamemode(match) {
+            // Calculates if it is a 1v1, 2v2, 1v2, etc.. based on the MatchData and team.
+            console.log(420, match)
+            const matchData = match.MatchData;
+            const teams = {
+                1: 0,
+                2: 0,
+            }
+            matchData.forEach(player => {
+                teams[player.team] += 1;
+            });
+            return `${teams[1]}v${teams[2]}`
         }
     },
     
